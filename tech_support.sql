@@ -498,5 +498,5 @@ INSERT INTO administrators VALUES
 -- Create a user named ts_user
 GRANT SELECT, INSERT, UPDATE, DELETE
 ON *
-TO ts_user@localhost
-IDENTIFIED BY 'pa55word';
+TO root@localhost
+IDENTIFIED BY 'mysql';
