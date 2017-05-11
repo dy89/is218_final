@@ -39,7 +39,7 @@ if ($action == 'list_products') {
 	$name = filter_input(INPUT_POST, 'name');
 	$version = filter_input(INPUT_POST, 'version', FILTER_VALIDATE_FLOAT);
 	$releaseDate = filter_input(INPUT_POST, 'releaseDate');
-	$validate->code('productCode', $productCode);
+	$validate->productCode('productCode', $productCode);
 	$validate->text('name', $name);
 	$validate->number('version', $version);
 	$validate->date('releaseDate', $releaseDate);

@@ -6,12 +6,12 @@ class TechnicianDB {
         $result = $db->query($query);
         $technicans = array();
         foreach ($result as $row) {
-            $technician = new Technician($row['techID'],
-                                   $row['firstName'],
+            $technician = new Technician($row['firstName'],
                                    $row['lastName'],
                                    $row['email'],
                                    $row['phone'],
                                    $row['password']);
+            $technician->settechID($row['techID']);
             $technicians[] = $technician;
         }
         return $technicians;
@@ -23,12 +23,12 @@ class TechnicianDB {
                   WHERE techID = '$techID'";
         $result = $db->query($query);
         $row = $result->fetch();
-        $technician = new Technician($row['techID'],
-                                   $row['firstName'],
+        $technician = new Technician($row['firstName'],
                                    $row['lastName'],
                                    $row['email'],
                                    $row['phone'],
                                    $row['password']);
+        $technician->settechID($row['techID']);
         return $technician;
     }
 
@@ -43,7 +43,6 @@ class TechnicianDB {
     public static function addTechnician($technician) {
         $db = Database::getDB();
 
-        $techID = $technician->gettechID();
         $firstName = $technician->getfirstName();
         $lastName = $technician->getfirstName();
         $email = $technician->getEmail();
@@ -52,9 +51,9 @@ class TechnicianDB {
 
         $query =
             "INSERT INTO technicians
-                 (techID, firstName, lastName, email, phone, password)
+                 (firstName, lastName, email, phone, password)
              VALUES
-                 ('$techID', '$firstName', '$lastName', '$email', '$phone', '$password')";
+                 ('$firstName', '$lastName', '$email', '$phone', '$password')";
 
         $row_count = $db->exec($query);
         return $row_count;

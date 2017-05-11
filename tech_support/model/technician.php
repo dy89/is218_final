@@ -2,8 +2,7 @@
 class Technician {
     private $techID, $firstName, $lastName, $email, $phone, $password;
 
-    public function __construct($techID, $firstName, $lastName, $email, $phone, $password) {
-        $this->techID = $techID;
+    public function __construct($firstName, $lastName, $email, $phone, $password) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;

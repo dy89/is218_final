@@ -31,7 +31,7 @@ if ($action == 'list_technicians') {
 
 	//Delete Technician
 	TechnicianDB::deleteTechnician($techID);
-	$technicians = TechnicianDB::getTechnicianss();
+	$technicians = TechnicianDB::getTechnicians();
 	include('technician_list.php');
 } else if ($action =='show_addtech_form') {
 	include('technician_add.php');
@@ -47,13 +47,13 @@ if ($action == 'list_technicians') {
 	$validate->text('lastName', $lastName);
 	$validate->email('email', $email);
 	$validate->phone('phone', $phone);
-	$validate->password('password', $password);
+	$validate->text('password', $password);
 	if ($fields->hasErrors()) {
 		include('technician_add.php');
 	} else {
 		$technician = new Technician($firstName, $lastName, $email, $phone, $password);
 		TechnicianDB::addTechnician($technician);
-		$technicians = TechnicianDB::getTechnicianss();
+		$technicians = TechnicianDB::getTechnicians();
 		include('technician_list.php');
 	}
 }
