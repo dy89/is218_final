@@ -146,3 +146,20 @@ textarea {
     margin-left: .5em;
     width: 15em;
 }
+/* Add Product form styles */
+#add_product_form {
+    margin: .5em 0;
+}
+#add_product_form label {
+    width: 6.5em;
+    padding-right: 1em;
+    padding-top: .25em;
+    padding-bottom: .5em;
+    float: left;
+}
+#add_product_form input {
+    float: left;
+}
+#add_product_form input[text] {
+    width: 15em;
+}
