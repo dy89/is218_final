@@ -34,11 +34,25 @@ if ($action == 'get_customer') {
 		$registrations = CustomerDB::getRegistrations($customerID);
 		include('create_incident.php');
 	}
-} else if ($action =='register'){
+} else if ($action =='register_incident'){
 	$productCode = filter_input(INPUT_POST, 'productkey');
+	$title = filter_input(INPUT_POST, 'title');
+	$description = filter_input(INPUT_POST, 'description');
 	$customerID = filter_input(INPUT_POST, 'customerID');
+	$productCode = filter_input(INPUT_POST, 'productCode');
+	$validate->text('title', $title);
+	$validate->text('description', $description);
+
 	$product = ProductDB::getProduct($productCode);
 	$productCode = $product->getproductCode();
-	include('register_success.php');
+	if ($fields->hasErrors()) {
+		$customer = CustomerDB::getCustomer($customerID);
+		$fullName = $customer->getfullName();
+		//$customerID = $customer->getcustomerID();
+		$registrations = CustomerDB::getRegistrations($customerID);
+		include('create_incident.php');
+	} else {
+		include('incident_success.php');
+	}
 }
 ?>
