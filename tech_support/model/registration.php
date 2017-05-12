@@ -1,6 +1,6 @@
 <?php
 class Registration {
-    private $customerID, $productCode, $registrationDate;
+    private $customerID, $productName, $productCode, $registrationDate;
 
     public function __construct($productCode, $registrationDate) {
         $this->productCode = $productCode;
@@ -29,6 +29,14 @@ class Registration {
 
     public function setregistrationDate($value) {
         $this->registrationDate = $value;
+    }
+
+    public function getproductName() {
+        return $this->productName;
+    }
+
+    public function setproductName($value) {
+        $this->productName = $value;
     }
 
 }

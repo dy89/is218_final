@@ -11,16 +11,18 @@ require_once('../model/validate.php');
 $validate = new Validate();
 $fields = $validate->getFields();
 $fields->addField('email');
+$fields->addField('title');
+$fields->addField('description');
 
 $action = filter_input(INPUT_POST, 'action');
 if ($action === NULL) {
     $action = filter_input(INPUT_GET, 'action');
     if ($action === NULL) {
-        $action = 'login';
+        $action = 'get_customer';
     }
 }
 
-if ($action == 'login') {
+if ($action == 'get_customer') {
 	$email = filter_input(INPUT_POST, 'email');
 	$validate->email('email', $email);
 	if ($fields->hasErrors()) {
@@ -28,8 +30,9 @@ if ($action == 'login') {
 	} else {
 		$customer = CustomerDB::getCustomerEmail($email);
 		$fullName = $customer->getfullName();
-		$products = ProductDB::getProducts();
-		include('register_product.php');
+		$customerID = $customer->getcustomerID();
+		$registrations = CustomerDB::getRegistrations($customerID);
+		include('create_incident.php');
 	}
 } else if ($action =='register'){
 	$productCode = filter_input(INPUT_POST, 'productkey');

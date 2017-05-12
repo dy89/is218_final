@@ -5,10 +5,9 @@
     <label>Email:</label>
         <input type="input" name="email"
             value ="<?php echo htmlspecialchars($email);?>">
+        <input type="hidden" name="action" value="get_customer">
+        <input type="submit" value="Get Customer" />
         <?php echo $fields->getField('email')->getHTML(); ?>
-        <br>
-        <input type="hidden" name="action" value="login">
-        <input type="submit" value="Login" />
         <br>
     </form>
 </main>

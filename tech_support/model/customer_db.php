@@ -42,7 +42,7 @@ class CustomerDB {
         $customer->setcustomerID($row['customerID']);
         return $customer;
     }
-    
+
     public static function getCustomerEmail($email) {
         $db = Database::getDB();
         $query = "SELECT * FROM customers
@@ -84,6 +84,37 @@ class CustomerDB {
                   WHERE customerID = '$customerID'";
         $row_count = $db->exec($query);
         return $row_count;
+    }
+
+    public static function getRegistrations($customerID) {
+        $db = Database::getDB();
+        $query = "SELECT * FROM registrations
+                  INNER JOIN customers
+                      ON registrations.customerID = customers.customerID
+                  WHERE customers.customerID = '$customerID'";
+        $result = $db->query($query);
+        $registrations = array();
+        foreach ($result as $row) {
+            $customer = new Customer($row['firstName'],
+                                   $row['lastName'],
+                                   $row['address'],
+                                   $row['city'],
+                                   $row['state'],
+                                   $row['postalCode'],
+                                   $row['countryCode'],
+                                   $row['phone'],
+                                   $row['email'],
+                                   $row['password']);
+            $customer->setcustomerID($row['customerID']);
+            $registration = new Registration($row['productCode'],
+                                   $row['registrationDate']);
+            $registration->setcustomerID($row['customerID']);
+            $product = ProductDB::getProduct($row['productCode']);
+            $productName = $product->getName();
+            $registration->setproductName($productName);
+            $registrations[] = $registration;
+        }
+        return $registrations;
     }
 }
 ?>
