@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('America/New_york');
+$message = '';
 require('../model/database.php');
 require('../model/product.php');
 require('../model/product_db.php');
@@ -42,15 +44,22 @@ switch($action) {
 		$productCode = filter_input(INPUT_POST, 'productCode');
 		$name = filter_input(INPUT_POST, 'name');
 		$version = filter_input(INPUT_POST, 'version', FILTER_VALIDATE_FLOAT);
-		$releaseDate = filter_input(INPUT_POST, 'releaseDate');
+		$releaseDate_s = filter_input(INPUT_POST, 'releaseDate');
 		$validate->productCode('productCode', $productCode);
 		$validate->text('name', $name);
 		$validate->number('version', $version);
-		$validate->date('releaseDate', $releaseDate);
+		try{
+            $releaseDate = new DateTime($releaseDate_s);
+        } catch (Exception $e){
+            $error_message = $e->getMessage();
+            echo "<p>Error Message: $error_message </p>";
+            $message = "Please enter a proper date format.";
+        }
+        $releaseDate_f = $releaseDate->format('y-m-d');
 		if ($fields->hasErrors()) {
 			include('product_add.php');
 		} else {
-			$product = new Product($productCode, $name, $version, $releaseDate);
+			$product = new Product($productCode, $name, $version, $releaseDate_f);
 			ProductDB::addProduct($product);
 			$products = ProductDB::getProducts();
 			include('product_list.php');

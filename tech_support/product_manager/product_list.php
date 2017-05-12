@@ -14,7 +14,7 @@
                 <td><?php echo $product->getproductCode(); ?></td>
                 <td><?php echo $product->getName(); ?></td>
                 <td class="right"><?php echo $product->getVersionFormatted(); ?></td>
-				<td><?php echo $product->getreleaseDate(); ?></td>
+				<td><?php $releaseDate = new DateTime($product->getreleaseDate()); echo $releaseDate->format('m-d-Y'); ?></td>
 				<td><form action="." method="post"
 						  id="delete_product_form">
                     <input type="hidden" name="action"

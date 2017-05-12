@@ -25,7 +25,7 @@
         <label>Release Date:</label>
         <input type="input" name="releaseDate"
             value ="<?php echo htmlspecialchars($releaseDate);?>">
-        <?php echo $fields->getField('releaseDate')->getHTML(); ?>
+        <?php echo $error_message ?>
         <br>
 
         <label>&nbsp;</label>
