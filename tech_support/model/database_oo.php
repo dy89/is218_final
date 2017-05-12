@@ -1,8 +1,8 @@
 <?php
 class Database {
-    private static $dsn = 'mysql:host=localhost;dbname=tech_support';
-    private static $username = 'root';
-    private static $password = 'mysql';
+    private static $dsn = 'mysql:host=sql1.njit.edu;dbname=dy89';
+    private static $username = 'dy89';
+    private static $password = 'dOYwhngu';
     private static $db;
     private static $options = array(PDO::ATTR_ERRMODE =>
                                     PDO::ERRMODE_EXCEPTION);
