@@ -2,6 +2,8 @@
 require('../model/database.php');
 require('../model/customer.php');
 require('../model/customer_db.php');
+require('../model/country.php');
+require('../model/country_db.php');
 require_once('../model/fields.php');
 require_once('../model/validate.php');
 $validate = new Validate();
@@ -12,7 +14,6 @@ $fields->addField('address');
 $fields->addField('city');
 $fields->addField('state');
 $fields->addField('postalCode');
-$fields->addField('countryCode');
 $fields->addField('phone');
 $fields->addField('email');
 $fields->addField('password');
@@ -46,6 +47,9 @@ if ($action == 'search_customer') {
 	$phone = $customer->getPhone();
 	$email = $customer->getEmail();
 	$password = $customer->getPassword();
+	$countries = CountryDB::getCountries();
+	$currentCountry = CountryDB::getCountrybyName($countryCode);
+	$currentName = $currentCountry->getcountryName();
 	include('customer_view.php');
 
 } else if ($action =='update_customer') {
@@ -56,7 +60,7 @@ if ($action == 'search_customer') {
 	$city = filter_input(INPUT_POST, 'city');
 	$state = filter_input(INPUT_POST, 'state');
 	$postalCode = filter_input(INPUT_POST, 'postalCode');
-	$countryCode = filter_input(INPUT_POST, 'countryCode');
+	$countryCode = filter_input(INPUT_POST, 'countryKey');
 	$phone = filter_input(INPUT_POST, 'phone');
 	$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 	$password = filter_input(INPUT_POST, 'password');
@@ -64,9 +68,7 @@ if ($action == 'search_customer') {
 	$validate->text('lastName', $lastName);
 	$validate->text('address', $address);
 	$validate->text('city', $city);
-	$validate->text('state', $state);
 	$validate->number('postalCode', $postalCode);
-	$validate->text('countryCode', $countryCode);
 	$validate->text('phone', $phone);
 	$validate->email('email', $email);
 	$validate->text('password', $password);

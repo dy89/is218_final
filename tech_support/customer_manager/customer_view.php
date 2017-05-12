@@ -44,9 +44,17 @@
         <br>
 
         <label>Country Code:</label>
-        <input type="input" name="countryCode"
-            value ="<?php echo htmlspecialchars($countryCode);?>">
-        <?php echo $fields->getField('countryCode')->getHTML(); ?>
+        <select name="countryKey">
+            <?php foreach($countries as $country) :
+                $countryName = $country->getcountryName();
+                $countryCode = $country->getcountryCode();
+                ?>
+                <option value="<?php echo $countryCode; ?>">
+                <?php echo $countryName; ?>
+                </option>
+            <?php endforeach; ?>
+            <option selected><?php echo htmlspecialchars($currentName);?></option>
+        </select>
         <br>
 
         <label>Phone:</label>
