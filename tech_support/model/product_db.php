@@ -28,6 +28,19 @@ class ProductDB {
         return $product;
     }
 
+    public static function getProductName($productCode) {
+        $db = Database::getDB();
+        $query = "SELECT * FROM products
+                  WHERE productCode = '$productCode'";
+        $result = $db->query($query);
+        $row = $result->fetch();
+        $product = new Product($row['productCode'],
+                                   $row['name'],
+                                   $row['version'],
+                                   $row['releaseDate']);
+        return $product->getName();
+    }
+
     public static function deleteProduct($productCode) {
         $db = Database::getDB();
         $query = "DELETE FROM products
