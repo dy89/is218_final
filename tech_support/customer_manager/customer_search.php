@@ -1,11 +1,14 @@
 <?php include '../view/header.php'; ?>
 <main>
 	<h1>Customer Search </h1>
+    <form action="." method="post">
     <label>Last Name:</label>
         <input type="input" name="lastName"
             value ="<?php echo htmlspecialchars($lastName);?>">
-        <?php echo $fields->getField('lastName')->getHTML(); ?>
+        <input type="hidden" name="action" value="search_customer">
+        <input type="submit" value="Search" />
         <br>
+    </form>
     <h1>Results </h1>
 	<table>
             <tr>

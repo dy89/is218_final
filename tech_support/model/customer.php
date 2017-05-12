@@ -15,6 +15,14 @@ class Customer {
         $this->password = $password;
     }
 
+    public function getcustomerID() {
+        return $this->customerID;
+    }
+
+    public function setcustomerID($value) {
+        $this->customerID = $value;
+    }
+
     public function getfirstName() {
         return $this->firstName;
     }
@@ -29,6 +37,10 @@ class Customer {
 
     public function setlastName($value) {
         $this->lastName = $value;
+    }
+
+    public function getfullName() {
+        return $this->firstName." ".$this->lastName;
     }
 
     public function getAddress() {

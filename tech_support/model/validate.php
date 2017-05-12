@@ -153,7 +153,7 @@ class Validate {
 		if ($required && empty($value)) {
 	    	$field->setErrorMessage('Required.');
 		} else {
-           $pattern = '/^[[:digit:]]/';
+           $pattern = '/^[[:digit:]]*$/';
            $message = 'Invalid format. Please enter a number.';
            $this->pattern($name, $value, $pattern, $message, $required);
 	 	}

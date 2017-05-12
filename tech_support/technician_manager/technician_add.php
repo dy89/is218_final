@@ -37,8 +37,8 @@
         <label>&nbsp;</label>
         <input type="submit" value="Add Technician">
         <br>
-    </form>
-    <p><a href="index.php?action=list_technicians">View Technician List</a></p>
 
+    <p><a href="index.php?action=list_technicians">View Technician List</a></p>
+    </form>
 </main>
 <?php include '../view/footer.php'; ?>
