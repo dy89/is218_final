@@ -1,6 +1,6 @@
 <?php
 class Technician {
-    private $techID, $firstName, $lastName, $email, $phone, $password;
+    private $techID, $firstName, $lastName, $email, $phone, $password, $fullName;
 
     public function __construct($firstName, $lastName, $email, $phone, $password) {
         $this->firstName = $firstName;
@@ -33,6 +33,11 @@ class Technician {
     public function setlastName($value) {
         $this->lastName = $value;
     }
+
+    public function getfullName() {
+        return $this->firstName." ".$this->lastName;
+    }
+
 
     public function getEmail() {
         return $this->email;

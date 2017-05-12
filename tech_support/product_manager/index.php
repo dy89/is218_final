@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('America/New_york');
 $message = '';
-require('../model/database.php');
+require('../model/database_oo.php');
 require('../model/product.php');
 require('../model/product_db.php');
 require_once('../model/fields.php');

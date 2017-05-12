@@ -10,8 +10,7 @@ class Validate {
         return $this->fields;
     }
 
-    public function text($name, $value,
-            $required = true, $min = 1, $max = 255) {
+    public function text($name, $value, $required = true, $min = 1, $max = 255) {
 
         $field = $this->fields->getField($name);
 
@@ -81,6 +80,19 @@ class Validate {
         $this->pattern($name, $value, $pattern, $message, $required);
     }
 
+    public function phone2($name, $value, $required = true) {
+        $field = $this->fields->getField($name);
+
+        // Call the text method and exit if it yields an error
+        $this->text($name, $value, $required);
+        if ($field->hasError()) { return; }
+
+        // Call the pattern method to validate a phone number
+        $pattern = '/^\(\d{3}\) ?\d{3}-\d{4}$/';
+        $message = 'Invalid phone number. Use (###) ###-#### format.';
+        $this->pattern($name, $value, $pattern, $message, $required);
+    }
+
     public function email($name, $value, $required = true) {
         $field = $this->fields->getField($name);
 
@@ -91,7 +103,7 @@ class Validate {
         }
 
         // Call the text method and exit if it yields an error
-        $this->text($name, $value, $required);
+        $this->text($name, $value, $required, 1, 50);
         if ($field->hasError()) { return; }
 
         // Split email address on @ sign and check parts
@@ -149,7 +161,10 @@ class Validate {
 
     public function number($name, $value, $required = true) {
         $field = $this->fields->getField($name);
-	
+	    
+        $this->text($name, $value, $required, 1, 20);
+        if ($field->hasError()) { return; }
+
 		if ($required && empty($value)) {
 	    	$field->setErrorMessage('Required.');
 		} else {
@@ -161,7 +176,7 @@ class Validate {
 
     public function date($name, $value, $required = true){
     	$field = $this->fields->getField($name);
-	
+
 		if ($required && empty($value)) {
 	    	$field->setErrorMessage('Required.');
 		} else {

@@ -3,8 +3,7 @@
 	<h1>Technician List </h1>
 	<table>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Password</th>
@@ -12,8 +11,7 @@
             </tr>
             <?php foreach ($technicians as $technician) : ?>
             <tr>
-                <td><?php echo $technician->getfirstName(); ?></td>
-                <td><?php echo $technician->getLastName(); ?></td>
+                <td><?php echo $technician->getfullName(); ?></td>
                 <td><?php echo $technician->getEmail(); ?></td>
                 <td><?php echo $technician->getPhone(); ?></td>
                 <td><?php echo $technician->getPassword(); ?></td>

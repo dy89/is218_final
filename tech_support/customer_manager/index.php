@@ -1,5 +1,5 @@
 <?php
-require('../model/database.php');
+require('../model/database_oo.php');
 require('../model/customer.php');
 require('../model/customer_db.php');
 require('../model/country.php');
@@ -17,7 +17,6 @@ $fields->addField('postalCode');
 $fields->addField('phone');
 $fields->addField('email');
 $fields->addField('password');
-
 $action = filter_input(INPUT_POST, 'action');
 if ($action === NULL) {
     $action = filter_input(INPUT_GET, 'action');
@@ -53,6 +52,7 @@ switch($action) {
 		include('customer_view.php');
 		break;
 	case 'update_customer':
+
 		$customerID = filter_input(INPUT_POST, 'customerID');
 		$firstName = filter_input(INPUT_POST, 'firstName');
 		$lastName = filter_input(INPUT_POST, 'lastName');
@@ -64,21 +64,55 @@ switch($action) {
 		$phone = filter_input(INPUT_POST, 'phone');
 		$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 		$password = filter_input(INPUT_POST, 'password');
-		$validate->text('firstName', $firstName);
-		$validate->text('lastName', $lastName);
-		$validate->text('address', $address);
-		$validate->text('city', $city);
-		$validate->number('postalCode', $postalCode);
-		$validate->text('phone', $phone);
-		$validate->email('email', $email);
-		$validate->text('password', $password);
+		$validate->text('firstName', $firstName, true, 1, 50);
+		$validate->text('lastName', $lastName, true, 1, 50);
+		$validate->text('address', $address, true, 1, 50);
+		$validate->text('city', $city, true, 1, 50);
+		$validate->text('state', $city, true, 1, 50);
+		$validate->number('postalCode', $postalCode, true, 1, 20);
+		$validate->phone2('phone', $phone);
+		$validate->email('email', $email, true);
+		$validate->text('password', $password, true, 6, 20);
 		if ($fields->hasErrors()) {
+			$countries = CountryDB::getCountries();
 			include('customer_view.php');
 		} else {
 			$customer = new Customer($firstName, $lastName, $address, $city, $state, $postalCode, $countryCode, $phone, $email, $password);
 			$customer->setcustomerID($customerID);
 
 			CustomerDB::updateCustomer($customer);
+			$lastName = $customer->getlastName();
+			$customers = CustomerDB::getCustomers($lastName);
+			include('customer_search.php');
+		}
+		break;
+	case 'add_customer':
+		$customerID = filter_input(INPUT_POST, 'customerID');
+		$firstName = filter_input(INPUT_POST, 'firstName');
+		$lastName = filter_input(INPUT_POST, 'lastName');
+		$address = filter_input(INPUT_POST, 'address');
+		$city = filter_input(INPUT_POST, 'city');
+		$state = filter_input(INPUT_POST, 'state');
+		$postalCode = filter_input(INPUT_POST, 'postalCode');
+		$countryCode = filter_input(INPUT_POST, 'countryKey');
+		$phone = filter_input(INPUT_POST, 'phone');
+		$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+		$password = filter_input(INPUT_POST, 'password');
+		$validate->text('firstName', $firstName, true, 1, 50);
+		$validate->text('lastName', $lastName, true, 1, 50);
+		$validate->text('address', $address, true, 1, 50);
+		$validate->text('city', $city, true, 1, 50);
+		$validate->text('state', $city, true, 1, 50);
+		$validate->number('postalCode', $postalCode, true, 1, 20);
+		$validate->phone2('phone', $phone);
+		$validate->email('email', $email, true);
+		$validate->text('password', $password, true, 6, 20);
+		if ($fields->hasErrors()) {
+			$countries = CountryDB::getCountries();
+			include('customer_add.php');
+		} else {
+			$customer = new Customer($firstName, $lastName, $address, $city, $state, $postalCode, $countryCode, $phone, $email, $password);
+			CustomerDB::addCustomer($customer);
 			$lastName = $customer->getlastName();
 			$customers = CustomerDB::getCustomers($lastName);
 			include('customer_search.php');

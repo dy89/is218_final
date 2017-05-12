@@ -1,12 +1,11 @@
 <?php
 date_default_timezone_set('America/New_york');
-require('../model/database.php');
+require('../model/database_oo.php');
 require('../model/customer.php');
 require('../model/customer_db.php');
 require('../model/product.php');
 require('../model/product_db.php');
 require('../model/registration.php');
-require('../model/registration_db.php');
 require_once('../model/fields.php');
 require_once('../model/validate.php');
 $expires = 0; //session cookie

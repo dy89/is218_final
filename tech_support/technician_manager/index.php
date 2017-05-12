@@ -1,7 +1,7 @@
 <?php
-require('../model/database.php');
+require('../model/database_oo.php');
 require('../model/technician.php');
-require('../model/technician_db.php');
+require('../model/technician_db_oo.php');
 require_once('../model/fields.php');
 require_once('../model/validate.php');
 $validate = new Validate();

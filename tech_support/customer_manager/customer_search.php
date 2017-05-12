@@ -9,6 +9,11 @@
         <input type="submit" value="Search" />
         <br>
     </form>
+    <form action ="." method ="post">
+        <h1>Add a new customer </h1>
+        <input type="hidden" name="action" value="add_customer">
+        <input type="submit" value="Add Customer" />
+    </form>
     <h1>Results </h1>
 	<table>
             <tr>

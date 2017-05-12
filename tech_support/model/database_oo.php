@@ -4,6 +4,8 @@ class Database {
     private static $username = 'root';
     private static $password = 'mysql';
     private static $db;
+    private static $options = array(PDO::ATTR_ERRMODE =>
+                                    PDO::ERRMODE_EXCEPTION);
     
     private function __construct() {}
 
@@ -20,6 +22,12 @@ class Database {
             }
         }
         return self::$db;
+    }
+
+    public function display_db_error($error_message){
+        global $app_path;
+        include '../errors/database_error.php';
+        exit;
     }
 }
 ?>
