@@ -42,6 +42,26 @@ class CustomerDB {
         $customer->setcustomerID($row['customerID']);
         return $customer;
     }
+    
+    public static function getCustomerEmail($email) {
+        $db = Database::getDB();
+        $query = "SELECT * FROM customers
+                  WHERE email = '$email'";
+        $result = $db->query($query);
+        $row = $result->fetch();
+        $customer = new Customer($row['firstName'],
+                                   $row['lastName'],
+                                   $row['address'],
+                                   $row['city'],
+                                   $row['state'],
+                                   $row['postalCode'],
+                                   $row['countryCode'],
+                                   $row['phone'],
+                                   $row['email'],
+                                   $row['password']);
+        $customer->setcustomerID($row['customerID']);
+        return $customer;
+    }
 
     public static function updateCustomer($customer) {
         $db = Database::getDB();
