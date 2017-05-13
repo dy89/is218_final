@@ -2,80 +2,91 @@
 class CustomerDB {
     public static function getCustomers($lastName) {
         $db = Database::getDB();
-        $query = "SELECT * FROM customers
-                  WHERE lastName = '$lastName'";
+        $query = 'SELECT * FROM customers
+                  WHERE lastName = :lastName';
         try{
-            $result = $db->query($query);
-            $customers = array();
-            foreach ($result as $row) {
-                $customer = new Customer($row['firstName'],
-                                      $row['lastName'],
-                                      $row['address'],
-                                      $row['city'],
-                                      $row['state'],
-                                      $row['postalCode'],
-                                      $row['countryCode'],
-                                      $row['phone'],
-                                      $row['email'],
-                                      $row['password']);
-                $customer->setcustomerID($row['customerID']);
-                $customers[] = $customer;
+              $statement = $db->prepare($query);
+              $statement->bindValue(':lastName', $lastName);
+              $statement->execute();
+              $customers = array();
+              $result = $statement->fetch();
+              while ($result != null){
+                    $customer = new Customer($result['firstName'],
+                                             $result['lastName'],
+                                             $result['address'],
+                                             $result['city'],
+                                             $result['state'],
+                                             $result['postalCode'],
+                                             $result['countryCode'],
+                                             $result['phone'],
+                                             $result['email'],
+                                             $result['password']);
+                    $customer->setcustomerID($result['customerID']);
+                    $customers[] = $customer;
+                    $result = $statement->fetch();
+              }
+              $statement->closeCursor();     
+              return $customers;
+            }catch (PDOException $e) {
+              $error_message = $e->getMessage();
+              display_db_error($error_message);
             }
-            return $customers;
-          }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-          }
     }
 
     public static function getCustomer($customerID) {
         $db = Database::getDB();
         $query = "SELECT * FROM customers
-                  WHERE customerID = '$customerID'";
-    try{
-        $result = $db->query($query);
-        $row = $result->fetch();
-        $customer = new Customer($row['firstName'],
-                                   $row['lastName'],
-                                   $row['address'],
-                                   $row['city'],
-                                   $row['state'],
-                                   $row['postalCode'],
-                                   $row['countryCode'],
-                                   $row['phone'],
-                                   $row['email'],
-                                   $row['password']);
-        $customer->setcustomerID($row['customerID']);
-        return $customer;
-    }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-      }
+                  WHERE customerID = :customerID";
+        try{
+              $statement = $db->prepare($query);
+              $statement->bindValue(':customerID', $customerID);
+              $statement->execute();
+              $result = $statement->fetch();
+              $customer = new Customer($result['firstName'],
+                                       $result['lastName'],
+                                       $result['address'],
+                                       $result['city'],
+                                       $result['state'],
+                                       $result['postalCode'],
+                                       $result['countryCode'],
+                                       $result['phone'],
+                                       $result['email'],
+                                       $result['password']);
+              $customer->setcustomerID($result['customerID']);
+              $statement->closeCursor();
+              return $customer;
+            }catch (PDOException $e) {
+              $error_message = $e->getMessage();
+              display_db_error($error_message);
+            }
     }
 
     public static function getCustomerEmail($email) {
         $db = Database::getDB();
         $query = "SELECT * FROM customers
-                  WHERE email = '$email'";
-    try{
-        $result = $db->query($query);
-        $row = $result->fetch();
-        $customer = new Customer($row['firstName'],
-                                   $row['lastName'],
-                                   $row['address'],
-                                   $row['city'],
-                                   $row['state'],
-                                   $row['postalCode'],
-                                   $row['countryCode'],
-                                   $row['phone'],
-                                   $row['email'],
-                                   $row['password']);
-        $customer->setcustomerID($row['customerID']);
-        return $customer;
-    }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-          }
+                  WHERE email = :email";
+        try{
+              $statement = $db->prepare($query);
+              $statement->bindValue(':email', $email);
+              $statement->execute();
+              $result = $statement->fetch();
+              $customer = new Customer($result['firstName'],
+                                       $result['lastName'],
+                                       $result['address'],
+                                       $result['city'],
+                                       $result['state'],
+                                       $result['postalCode'],
+                                       $result['countryCode'],
+                                       $result['phone'],
+                                       $result['email'],
+                                       $result['password']);
+              $customer->setcustomerID($result['customerID']);
+              $statement->closeCursor();
+              return $customer;
+            }catch (PDOException $e) {
+              $error_message = $e->getMessage();
+              display_db_error($error_message);
+            }
     }
 
     public static function updateCustomer($customer) {
@@ -96,14 +107,18 @@ class CustomerDB {
                   SET firstName = '$firstName', lastName = '$lastName', address = '$address', 
                   city = '$city', state = '$state', postalCode = '$postalCode', countryCode = '$countryCode',
                   phone = '$phone', email = '$email', password = '$password'
-                  WHERE customerID = '$customerID'";
-    try{
-        $row_count = $db->exec($query);
-        return $row_count;
-    }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-    }
+                  WHERE customerID = :customerID";
+        try{
+              $statement = $db->prepare($query);
+              $statement->bindValue(':customerID', $customerID);
+              $statement->execute();
+              $row_count = $statement->rowCount();
+              $statement->closeCursor();
+              return $row_count;
+        }catch (PDOException $e) {
+                $error_message = $e->getMessage();
+                display_db_error($error_message);
+        }
 
     }
 
@@ -112,29 +127,33 @@ class CustomerDB {
         $query = "SELECT * FROM registrations
                   INNER JOIN customers
                       ON registrations.customerID = customers.customerID
-                  WHERE customers.customerID = '$customerID'";
-    try{    
-        $result = $db->query($query);
-        $registrations = array();
-        foreach ($result as $row) {
-            $registration = new Registration($row['productCode'],
-                                   $row['registrationDate']);
-            $registration->setcustomerID($row['customerID']);
-            $product = ProductDB::getProduct($row['productCode']);
-            $productName = $product->getName();
-            $registration->setproductName($productName);
-            $registrations[] = $registration;
+                  WHERE customers.customerID = :customerID";
+        try{  
+              $statement = $db->prepare($query);
+              $statement->bindValue(':customerID', $customerID);
+              $statement->execute();  
+              $registrations = array();
+              $result = $statement->fetch();
+              while ($result != null){
+                  $registration = new Registration($result['productCode'],
+                                                   $result['registrationDate']);
+                  $registration->setcustomerID($result['customerID']);
+                  $product = ProductDB::getProduct($result['productCode']);
+                  $productName = $product->getName();
+                  $registration->setproductName($productName);
+                  $registrations[] = $registration;
+                  $result = $statement->fetch();
+              }
+              $statement->closeCursor();    
+              return $registrations;
+        }catch (PDOException $e) {
+              $error_message = $e->getMessage();
+              display_db_error($error_message);
         }
-        return $registrations;
-    }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-    }
     }
 
     public static function addCustomer($customer) {
         $db = Database::getDB();
-
         $firstName = $customer->getfirstName();
         $lastName = $customer->getlastName();
         $address = $customer->getAddress();
@@ -151,13 +170,16 @@ class CustomerDB {
                  (firstName, lastName, address, city, state, postalCode, countryCode, phone, email, password)
              VALUES
                  ('$firstName', '$lastName', '$address', '$city', '$state', '$postalCode', '$countryCode', '$phone', '$email', '$password')";
-    try{
-        $row_count = $db->exec($query);
-        return $row_count;
-    }catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            display_db_error($error_message);
-    }
+        try{  
+              $statement = $db->prepare($query);
+              $statement->execute();
+              $row_count = $statement->rowCount();
+              $statement->closeCursor();
+              return $row_count;
+        }catch (PDOException $e) {
+              $error_message = $e->getMessage();
+              display_db_error($error_message);
+        }
     }
 }
 ?>

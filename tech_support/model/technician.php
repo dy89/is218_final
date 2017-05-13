@@ -1,6 +1,6 @@
 <?php
 class Technician {
-    private $techID, $firstName, $lastName, $email, $phone, $password, $fullName;
+    private $techID, $firstName, $lastName, $email, $phone, $password, $fullName, $incidentCount;
 
     public function __construct($firstName, $lastName, $email, $phone, $password) {
         $this->firstName = $firstName;
@@ -63,5 +63,12 @@ class Technician {
         $this->password = $value;
     }
 
+    public function getincidentCount() {
+        return $this->incidentCount;
+    }
+
+    public function setincidentCount($value) {
+        $this->incidentCount = $value;
+    }
 }
 ?>

@@ -48,7 +48,6 @@ switch($action) {
 		$password = $customer->getPassword();
 		$countries = CountryDB::getCountries();
 		$currentCountry = CountryDB::getCountrybyName($countryCode);
-		$currentName = $currentCountry->getcountryName();
 		include('customer_view.php');
 		break;
 	case 'update_customer':

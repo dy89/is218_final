@@ -1,11 +1,10 @@
 <?php
 class Incident {
-    private $incidentID, $customerID, $productCode, $techID, $dateOpened, $dateClosed, $title, $description;
+    private $incidentID, $customerID, $productCode, $techID, $dateOpened, $dateClosed, $title, $description, $customerName;
 
-    public function __construct($customerID, $productCode, $techID, $dateOpened, $dateClosed, $title, $description) {
+    public function __construct($customerID, $productCode, $dateOpened, $dateClosed, $title, $description) {
         $this->customerID = $customerID;
         $this->productCode = $productCode;
-        $this->techID = $techID;
         $this->dateOpened = $dateOpened;
         $this->dateClosed = $dateClosed;
         $this->title = $title;
@@ -18,6 +17,14 @@ class Incident {
 
     public function setcustomerID($value) {
         $this->customerID = $value;
+    }
+
+    public function getcustomerName() {
+        return $this->customerName;
+    }
+
+    public function setcustomerName($value) {
+        $this->customerName = $value;
     }
 
     public function getproductCode() {

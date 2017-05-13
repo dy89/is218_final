@@ -9,13 +9,13 @@
         <li><a href="technician_manager">Manage Technicians</a></li>
         <li><a href="customer_manager">Manage Customers</a></li>
         <li><a href="incident_manager">Create Incident</a></li>
-        <li><a href="under_construction.php">Assign Incident</a></li>
+        <li><a href="assign_incident">Assign Incident</a></li>
         <li><a href="under_construction.php">Display Incidents</a></li>
     </ul>
 
     <h2>Technicians</h2>    
     <ul>
-        <li><a href="under_construction.php">Update Incident</a></li>
+        <li><a href="update_incident">Update Incident</a></li>
     </ul>
 
     <h2>Customers</h2>

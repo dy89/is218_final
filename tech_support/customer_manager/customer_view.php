@@ -45,15 +45,19 @@
 
         <label>Country Code:</label>
         <select name="countryKey">
+            <option selected><?php echo htmlspecialchars($currentCountry);?></option>
             <?php foreach($countries as $country) :
                 $countryName = $country->getcountryName();
-                $countryCode = $country->getcountryCode();
-                ?>
+                $countryCode = $country->getcountryCode();?>
+            <?php if ($currentCountry != $countryName):?>
                 <option value="<?php echo $countryCode; ?>">
                 <?php echo $countryName; ?>
                 </option>
+            <?php else: ?>
+                <option value="<?php echo $countryCode; ?>" selected>
+                <?php echo htmlspecialchars($currentCountry);?></option>
+            <?php endif ?>
             <?php endforeach; ?>
-            <option selected><?php echo htmlspecialchars($currentName);?></option>
         </select>
         <br>
 
